@@ -20,7 +20,7 @@ EOF
     cd /var/www/html/guifi-api/
     PARAMETERS=$(cat <<EOF
 parameters:
-    database_host: 127.0.0.1
+    database_host: ${DATABASE_SERVICE}
     database_port: null
     database_name: ${GUIFI_DB}
     database_user: ${GUIFI_USER_DB}
@@ -37,6 +37,7 @@ EOF
     # Install guifi-api dependencies
     php composer.phar install
 
+    chown -R www-data:www-data var
 
     touch /init
     echo "Guifi.net API (symfony) successfully installed in Docker image!" 

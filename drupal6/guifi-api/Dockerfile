@@ -9,13 +9,17 @@ LABEL description="API REST with symfony"
 
 
 RUN apt-get update && apt-get dist-upgrade -y \
-  && apt-get install -y apache2 php7.0 php7.0-mysqlnd php7.0-gd \
-  php7.0-xdebug libapache2-mod-php7.0 php7.0-intl wget \
-  gzip git unzip mysql-client \
+  && apt-get install -y apache2 php php-mysqlnd php-gd \
+  php7.0-xdebug libapache2-mod-php php-intl wget php-xml \
+  gzip git unzip mysql-client vim \
   && apt-get clean \
   && apt-get autoremove \
   && rm -rf /var/lib/apt/lists/*
-# TODO add vim (tomorrow)
+
+#CHECK
+# separate php install code to guifi-api-bootstrap
+#COPY ./guifi-api-bootstrap.sh /
+#RUN /guifi-api-bootstrap.sh
 
 # Copy over the apache configuration file
 COPY ./drupal.conf /etc/apache2/sites-available/drupal.conf
@@ -25,15 +29,14 @@ RUN a2enmod rewrite
 RUN a2dissite 000-default.conf
 RUN a2ensite drupal.conf
 
-# Define Volume for Drupal
-VOLUME /usr/share/drupal/guifi-web
+# TODO Define Volume for Drupal
+#VOLUME /usr/share/drupal/guifi-web
 
 # Preparing development dir
 RUN mkdir /usr/share/guifi-dev/
 
 # Copying Entrypoint scripts
 COPY ./docker-entrypoint.sh /
-COPY ./drupal-entry.pl /
 
 EXPOSE 80
 
