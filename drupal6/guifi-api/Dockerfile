@@ -16,10 +16,9 @@ RUN apt-get update && apt-get dist-upgrade -y \
   && apt-get autoremove \
   && rm -rf /var/lib/apt/lists/*
 
-#CHECK
-# separate php install code to guifi-api-bootstrap
-#COPY ./guifi-api-bootstrap.sh /
-#RUN /guifi-api-bootstrap.sh
+# Install guifi-api framework
+COPY ./guifi-api-bootstrap.sh /
+RUN /guifi-api-bootstrap.sh
 
 # Copy over the apache configuration file
 COPY ./drupal.conf /etc/apache2/sites-available/drupal.conf
